@@ -25,6 +25,9 @@ A modern password security toolkit built with HTML, CSS and JavaScript.
 <img width="1031" height="901" alt="image" src="https://github.com/user-attachments/assets/8fccfe0f-430a-4925-922a-ffc30a708308" />
 <img width="1072" height="907" alt="image" src="https://github.com/user-attachments/assets/91d28ff4-a407-4717-ae31-eb98a7688414" />
 
+## Installation 
+https://github.com/akira072/PassForge.git
+
 ## Future Improvements
 
 - Password Vault
