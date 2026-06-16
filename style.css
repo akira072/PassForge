@@ -1,0 +1,523 @@
+/* ═══════════════════════════════════════════════
+   PassForge — style.css
+   Global styles, design tokens, layout, components
+═══════════════════════════════════════════════ */
+
+/* ── Reset ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Design Tokens ── */
+:root {
+  --navy:       #0A0F1E;
+  --navy-mid:   #111827;
+  --navy-card:  #141c2e;
+  --blue:       #2D7DD2;
+  --blue-glow:  rgba(45, 125, 210, 0.25);
+  --green:      #39FF14;
+  --green-dim:  rgba(57, 255, 20, 0.15);
+  --green-glow: rgba(57, 255, 20, 0.35);
+  --slate:      #8892B0;
+  --white:      #E6F1FF;
+  --red:        #FF4F6A;
+  --orange:     #FF9A3C;
+  --yellow:     #FFD166;
+  --border:     rgba(45, 125, 210, 0.2);
+}
+
+/* ── Base ── */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--navy);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(45, 125, 210, .08) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(57, 255, 20, .05) 0%, transparent 60%);
+}
+
+/* ── Header ── */
+header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.logo {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -1px;
+}
+
+.logo span {
+  color: var(--green);
+  text-shadow: 0 0 16px var(--green-glow);
+}
+
+.tagline {
+  font-size: .85rem;
+  color: var(--slate);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  margin-top: .4rem;
+  font-family: 'Space Mono', monospace;
+}
+
+/* ── Tab Navigation ── */
+.tab-nav {
+  display: flex;
+  justify-content: center;
+  gap: .5rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: .78rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .55rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--slate);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.tab-btn:hover {
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+.tab-btn.active {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 14px var(--blue-glow);
+}
+
+/* ── Card ── */
+.card {
+  background: var(--navy-card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 2rem;
+  max-width: 680px;
+  margin: 0 auto 1.5rem;
+  box-shadow: 0 4px 40px rgba(0, 0, 0, .4);
+  display: none;
+}
+
+.card.active {
+  display: block;
+}
+
+.card-title {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.card-title::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 8px var(--green-glow);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .4; }
+}
+
+/* ── Form Labels ── */
+label {
+  display: block;
+  font-size: .78rem;
+  color: var(--slate);
+  margin-bottom: .4rem;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: .05em;
+}
+
+/* ── Text Inputs & Textarea ── */
+input[type="text"],
+input[type="password"],
+textarea {
+  width: 100%;
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: .75rem 1rem;
+  color: var(--white);
+  font-family: 'Space Mono', monospace;
+  font-size: .9rem;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+  resize: vertical;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px var(--blue-glow);
+}
+
+/* ── Input Group (with icon button) ── */
+.input-group {
+  position: relative;
+  margin-bottom: 1.25rem;
+}
+
+.copy-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--slate);
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 4px 6px;
+  transition: color .2s;
+}
+
+.copy-btn:hover {
+  color: var(--green);
+}
+
+/* ── Range Slider ── */
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+}
+
+.slider-row input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--blue);
+  cursor: pointer;
+  box-shadow: 0 0 8px var(--blue-glow);
+}
+
+.slider-val {
+  font-family: 'Space Mono', monospace;
+  font-size: .9rem;
+  color: var(--white);
+  min-width: 2.2rem;
+  text-align: right;
+}
+
+/* ── Checkbox Grid ── */
+.checks-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .6rem;
+  margin-bottom: 1.5rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  font-size: .82rem;
+  color: var(--slate);
+  cursor: pointer;
+}
+
+.check-item input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  accent-color: var(--blue);
+  cursor: pointer;
+}
+
+/* ── Buttons ── */
+.btn {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .7rem 1.6rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all .2s ease;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background: var(--blue);
+  color: #fff;
+  box-shadow: 0 0 14px var(--blue-glow);
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: #3a8de0;
+  box-shadow: 0 0 22px rgba(45, 125, 210, .5);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--blue);
+  color: var(--blue);
+}
+
+.btn-outline:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+/* ── Row of 2 equal buttons ── */
+.row-2 {
+  display: flex;
+  gap: .75rem;
+}
+
+.row-2 .btn {
+  flex: 1;
+}
+
+/* ── Strength Meter ── */
+.strength-wrap {
+  margin-bottom: 1.5rem;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 4px;
+  margin-bottom: .5rem;
+}
+
+.bar {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, .06);
+  transition: background .4s ease, box-shadow .4s ease;
+}
+
+.strength-label {
+  font-family: 'Space Mono', monospace;
+  font-size: .75rem;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  transition: color .4s;
+}
+
+/* ── Criteria Checklist ── */
+.criteria-list {
+  list-style: none;
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .4rem;
+}
+
+.criteria-list li {
+  font-size: .78rem;
+  color: var(--slate);
+  font-family: 'Space Mono', monospace;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  transition: color .3s;
+}
+
+.criteria-list li.pass {
+  color: var(--green);
+}
+
+.criteria-list li::before {
+  content: '✗';
+  color: var(--red);
+  font-size: .7rem;
+}
+
+.criteria-list li.pass::before {
+  content: '✓';
+  color: var(--green);
+}
+
+/* ── Entropy / Stats Box ── */
+.entropy-box {
+  background: rgba(57, 255, 20, .05);
+  border: 1px solid rgba(57, 255, 20, .15);
+  border-radius: 6px;
+  padding: .9rem 1.2rem;
+  margin-top: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: .8rem;
+  color: var(--slate);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: .5rem;
+}
+
+.entropy-box .metric {
+  display: flex;
+  flex-direction: column;
+}
+
+.entropy-box .metric-val {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--green);
+}
+
+.entropy-box .metric-key {
+  font-size: .68rem;
+  color: var(--slate);
+  margin-top: 2px;
+}
+
+/* ── Encrypt Mode Toggle ── */
+.enc-mode-row {
+  display: flex;
+  gap: .5rem;
+  margin-bottom: 1.25rem;
+}
+
+.mode-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: .72rem;
+  padding: .45rem 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--slate);
+  cursor: pointer;
+  letter-spacing: .06em;
+  transition: all .2s;
+}
+
+.mode-btn.active {
+  background: rgba(45, 125, 210, .2);
+  border-color: var(--blue);
+  color: var(--white);
+}
+
+/* ── Output Box ── */
+.output-box {
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: .82rem;
+  color: var(--green);
+  min-height: 80px;
+  word-break: break-all;
+  margin-top: 1rem;
+  position: relative;
+  line-height: 1.6;
+}
+
+.output-box .copy-float {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(45, 125, 210, .2);
+  border: 1px solid var(--blue);
+  border-radius: 4px;
+  color: var(--blue);
+  font-size: .68rem;
+  padding: 2px 8px;
+  cursor: pointer;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: .06em;
+  transition: all .2s;
+}
+
+.output-box .copy-float:hover {
+  background: var(--blue);
+  color: #fff;
+}
+
+/* ── Toast Notification ── */
+#toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--navy-card);
+  border: 1px solid var(--green);
+  color: var(--green);
+  font-family: 'Space Mono', monospace;
+  font-size: .78rem;
+  padding: .6rem 1.2rem;
+  border-radius: 6px;
+  box-shadow: 0 0 16px var(--green-glow);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all .25s ease;
+  pointer-events: none;
+  z-index: 999;
+}
+
+#toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Misc ── */
+.info-note {
+  font-size: .73rem;
+  color: var(--slate);
+  margin-top: .6rem;
+  line-height: 1.5;
+}
+
+/* ── Responsive ── */
+@media (max-width: 480px) {
+  .checks-grid,
+  .criteria-list {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 1.25rem;
+  }
+}
