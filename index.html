@@ -4,57 +4,31 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PassForge — Password Utility Terminal</title>
-
-  <!-- Google Fonts: Space Mono (monospace terminal feel) + Inter (clean body) -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-
-  <!-- All visual styles live in style.css -->
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-
-<!-- ════════════════════════════════════════════
-     HEADER
-════════════════════════════════════════════ -->
 <header>
   <div class="logo">Pass<span>Forge</span></div>
   <p class="tagline">Password Utility Terminal</p>
 </header>
-
-<!-- ════════════════════════════════════════════
-     TAB NAVIGATION
-     Each button calls switchTab() from utils.js,
-     passing its own `this` reference for highlighting.
-════════════════════════════════════════════ -->
 <nav class="tab-nav">
   <button class="tab-btn active" onclick="switchTab('generator', this)">⚙ Generator</button>
   <button class="tab-btn"        onclick="switchTab('strength',  this)">◈ Strength Check</button>
   <button class="tab-btn"        onclick="switchTab('encrypt',   this)">⬡ Encrypt / Decrypt</button>
 </nav>
-
-
-<!-- ════════════════════════════════════════════
-     TAB 1 — PASSWORD GENERATOR
-     Logic: generator.js
-════════════════════════════════════════════ -->
 <section class="card active" id="tab-generator">
   <div class="card-title">Password Generator</div>
-
-  <!-- Output field (readonly) + copy icon -->
   <label>Generated Password</label>
   <div class="input-group">
     <input type="text" id="genOutput" readonly placeholder="Click Generate…" style="padding-right:2.5rem"/>
     <button class="copy-btn" onclick="copyField('genOutput')" title="Copy to clipboard">⧉</button>
   </div>
-
-  <!-- Length slider -->
   <label>Length — <span id="lenLabel">16</span> characters</label>
   <div class="slider-row">
-    <input type="range" id="lenSlider" min="6" max="128" value="16" oninput="syncSlider(this)"/>
+    <input type="range" id="lenSlider" min="6" max="100" value="16" oninput="syncSlider(this)"/>
     <span class="slider-val" id="lenSlider_val">16</span>
   </div>
-
-  <!-- Character set options -->
   <div class="checks-grid">
     <label class="check-item"><input type="checkbox" id="useUpper"  checked/> Uppercase (A–Z)</label>
     <label class="check-item"><input type="checkbox" id="useLower"  checked/> Lowercase (a–z)</label>
@@ -63,14 +37,10 @@
     <label class="check-item"><input type="checkbox" id="noAmbig"/>           Exclude Ambiguous</label>
     <label class="check-item"><input type="checkbox" id="noRepeat"/>          No Repeating Chars</label>
   </div>
-
-  <!-- Action buttons -->
   <div class="row-2">
     <button class="btn btn-primary" onclick="generatePassword()">Generate</button>
     <button class="btn btn-outline" onclick="generatePassphrase()">Passphrase</button>
   </div>
-
-  <!-- Entropy stats (hidden until first generation) -->
   <div class="entropy-box" id="entropyBox" style="display:none">
     <div class="metric">
       <span class="metric-val" id="eEntropy">–</span>
@@ -93,16 +63,8 @@
     * At 10 billion guesses/sec (fast offline attack)
   </p>
 </section>
-
-
-<!-- ════════════════════════════════════════════
-     TAB 2 — STRENGTH CHECKER
-     Logic: strength.js
-════════════════════════════════════════════ -->
 <section class="card" id="tab-strength">
   <div class="card-title">Strength Analyser</div>
-
-  <!-- Password input with show/hide toggle -->
   <label>Enter a Password to Analyse</label>
   <div class="input-group" style="margin-bottom:.5rem">
     <input type="password" id="strengthInput"
@@ -111,8 +73,6 @@
            style="padding-right:2.5rem"/>
     <button class="copy-btn" onclick="toggleVisibility('strengthInput', this)" title="Show/Hide">👁</button>
   </div>
-
-  <!-- 5-bar animated strength meter -->
   <div class="strength-wrap" style="margin-top:1rem">
     <div class="strength-bars" id="strengthBars">
       <div class="bar" id="b0"></div>
@@ -123,8 +83,6 @@
     </div>
     <span class="strength-label" id="strengthLabel">Waiting for input…</span>
   </div>
-
-  <!-- Criteria checklist (✗/✓ toggled by strength.js) -->
   <ul class="criteria-list" id="criteriaList">
     <li id="c-length">At least 12 characters</li>
     <li id="c-upper">Has uppercase letter</li>
@@ -135,8 +93,6 @@
     <li id="c-nosequence">No common sequences</li>
     <li id="c-nocommon">Not a common password</li>
   </ul>
-
-  <!-- Entropy metrics (shown once user starts typing) -->
   <div class="entropy-box" id="strengthEntropy" style="display:none; margin-top:1.2rem">
     <div class="metric">
       <span class="metric-val" id="sEntropy">–</span>
@@ -156,68 +112,34 @@
     </div>
   </div>
 </section>
-
-
-<!-- ════════════════════════════════════════════
-     TAB 3 — ENCRYPT / DECRYPT
-     Logic: encrypt.js
-════════════════════════════════════════════ -->
 <section class="card" id="tab-encrypt">
   <div class="card-title">AES-256 Encrypt / Decrypt</div>
-
-  <!-- Mode toggle: Encrypt / Decrypt -->
   <div class="enc-mode-row">
     <button class="mode-btn active" id="modeEncBtn" onclick="setEncMode('encrypt')">🔒 Encrypt</button>
     <button class="mode-btn"        id="modeDecBtn" onclick="setEncMode('decrypt')">🔓 Decrypt</button>
   </div>
-
-  <!-- Main text input -->
   <label id="inputLabel">Plaintext</label>
   <textarea id="encInput" rows="4" placeholder="Enter text to encrypt…"></textarea>
-
-  <!-- Passphrase input with show/hide toggle -->
   <div class="input-group" style="margin-top:1rem">
     <input type="password" id="encKey" placeholder="Secret passphrase…" style="padding-right:2.5rem"/>
     <button class="copy-btn" onclick="toggleVisibility('encKey', this)" title="Show/Hide">👁</button>
   </div>
-
-  <!-- Run / Clear buttons -->
   <div class="row-2" style="margin-top:.75rem">
     <button class="btn btn-primary" onclick="runEncryption()">Run</button>
     <button class="btn btn-outline" onclick="clearEncryption()">Clear</button>
   </div>
-
-  <!-- Output area (shown after run) -->
   <div class="output-box" id="encOutput" style="display:none">
     <button class="copy-float" onclick="copyDivText('encOutputText')">COPY</button>
     <span id="encOutputText"></span>
   </div>
-
   <p class="info-note" style="margin-top:1rem">
     Uses <strong>AES-GCM 256-bit</strong> via the Web Crypto API.
-    Key is derived with <strong>PBKDF2</strong> (310,000 iterations, SHA-256).
-    Output is Base64-encoded with a random salt + IV prepended.
   </p>
 </section>
-
-
-<!-- ════════════════════════════════════════════
-     TOAST NOTIFICATION (global, used by utils.js)
-════════════════════════════════════════════ -->
 <div id="toast">Copied ✓</div>
-
-
-<!-- ════════════════════════════════════════════
-     JAVASCRIPT — loaded in dependency order:
-     1. utils.js    — shared helpers (toast, clipboard, formatTime…)
-     2. generator.js — password / passphrase generation
-     3. strength.js  — strength analysis
-     4. encrypt.js   — AES-256-GCM encrypt / decrypt
-════════════════════════════════════════════ -->
 <script src="utils.js"></script>
 <script src="generator.js"></script>
 <script src="strength.js"></script>
 <script src="encrypt.js"></script>
-
 </body>
 </html>
